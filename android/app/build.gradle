@@ -102,6 +102,9 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+    project.ext.vectoricons = [
+    iconFontNames: [ 'MaterialIcons.ttf', 'FontAwesome.ttf' ] // Adicione quaisquer outras fontes de ícones que você esteja usando
+]
 }
 
 dependencies {
