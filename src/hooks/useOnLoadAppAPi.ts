@@ -1,4 +1,5 @@
 import {apiConfig} from '../types/api';
+import {Movie, MoviesPage, searchMovies} from '../types/movies';
 
 const options = {
   method: 'GET',
@@ -9,7 +10,7 @@ const options = {
 };
 
 export const validateAuth = () => {
-  const validate = fetch(apiConfig.url, options)
+  const validate = fetch(apiConfig.url + apiConfig.authentication, options)
     .then(res => {
       return res.json();
     })
@@ -17,18 +18,26 @@ export const validateAuth = () => {
   return validate;
 };
 
-export const findMovies = (urlParams: string, pagesNumber: number) => {
-  const url =
-    apiConfig.movies_url + urlParams + '?language=pt-BR&page=' + pagesNumber;
-  const response = fetch(url, options)
-    .then(res => {
-      return res.json();
-    })
-    .catch(err => console.error('error: ' + err));
-  console.log(response);
-  return response;
-};
+export const findMovies = async (
+  urlParams: string,
+  pagesNumber: number,
+): Promise<searchMovies[]> => {
+  const movieUrl =
+    apiConfig.searchMovies +
+    'query=' +
+    urlParams +
+    '&include_adult=false&language=pt-BR&page=' +
+    pagesNumber;
 
+  try {
+    const response = await fetch(apiConfig.url + movieUrl, options);
+    const data = await response.json();
+    return data.results;
+  } catch (err) {
+    console.error('error: ' + err);
+    throw err;
+  }
+};
 function parsedFindPopularMovies(data: unknown) {
   return data;
 }
