@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
   flex: 1;
   background-color: #242e34;
 `;
@@ -31,7 +31,7 @@ export const Title = styled.Text`
 
 export const Description = styled.Text`
   color: #fff;
-  font-size: 14px;
+  font-size: 16px;
   margin-top: 10px;
   margin-bottom: 20px;
   line-height: 20px;
@@ -46,4 +46,10 @@ export const MovieProvider = styled.Text`
   color: #fff;
   font-size: 24px;
   text-align: center;
+`;
+
+export const ButtonContainer = styled.View`
+  margin-top: 15px;
+  align-items: center;
+  width: 100%;
 `;

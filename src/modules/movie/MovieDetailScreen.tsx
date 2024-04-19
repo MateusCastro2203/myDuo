@@ -7,6 +7,9 @@ import {apiConfig} from '../../types/api';
 import {MovieDetailData} from '../../types/movieDetail';
 import * as S from './style';
 import {getWatchProviders} from '../../hooks/useMovieDetails';
+import {Button} from '../../components/button/Button';
+import {useSaveLocalStorage} from '../../hooks/useLocalStorage';
+
 interface Provider {
   display_priority: number;
   logo_path: string;
@@ -36,6 +39,10 @@ export const MovieDetails = () => {
     fetchWatchProviders();
   }, []);
 
+  const saveStore = async () => {
+    await useSaveLocalStorage(details.id, movieDetail);
+  };
+
   return (
     <S.Container>
       <FastImage source={{uri: imgUri}} style={{width: '100%', height: 200}} />
@@ -61,6 +68,14 @@ export const MovieDetails = () => {
           horizontal
         />
       </S.MovieContainer>
+
+      <S.ButtonContainer>
+        <Button
+          onPress={() => {
+            saveStore;
+          }}
+        />
+      </S.ButtonContainer>
     </S.Container>
   );
 };

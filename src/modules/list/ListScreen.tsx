@@ -1,14 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
+import {storage} from '../../hooks/useLocalStorage';
 import {selectAllMovies} from '../../store/searchMoviesStore/selectors';
 
 export const ListScreen = () => {
-  const movies = useSelector(selectAllMovies);
-  console.log(movies.length);
-  return (
-    <View>
-      <Text>{movies.item}</Text>
-    </View>
-  );
+  const localData = storage;
+  useEffect(() => {
+    const value = localData.getAllDataForKey('favoritesMovies');
+    value.then(data => {
+      console.log(data);
+    });
+  }, []);
+  return <View></View>;
 };

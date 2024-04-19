@@ -2,6 +2,7 @@
   "extends": "@react-native/typescript-config/tsconfig.json",
   "include": ["src/**/*.ts", ".env", "node_modules/@types"],
   "compilerOptions": {
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "types": ["@react-native-async-storage/async-storage"]
   }
 }
