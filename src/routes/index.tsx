@@ -27,7 +27,7 @@ export const Navigator = () => {
             tabBarLabel: 'Início',
           }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="List"
           component={ListScreen}
           options={{
@@ -36,7 +36,7 @@ export const Navigator = () => {
             tabBarLabel: 'Lista',
             tabBarLabelStyle: {fontSize: 16},
           }}
-        />
+        /> */}
       </Tab.Navigator>
     );
   };
