@@ -11,7 +11,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {validateAuth, findMovies} from '../../hooks/useOnLoadAppAPi';
 import {fetchMoviesSuccess} from '../../store/searchMoviesStore/actions';
 import {selectPopularMovies} from '../../store/movieStore/selectors';
-import {MovieCard} from '../../components/moviesResult/MoviesResult';
+import {MovieCard} from '../../components/movieCard/MovieCard';
 import * as S from './styles';
 import {selectAllMovies} from '../../store/searchMoviesStore/selectors';
 import {useNavigation, useRoute} from '@react-navigation/native';

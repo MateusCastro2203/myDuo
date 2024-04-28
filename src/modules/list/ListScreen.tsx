@@ -3,7 +3,7 @@ import {Button, FlatList, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {storage} from '../../hooks/useLocalStorage';
 import {getCount} from '../../store/counterMoviesList/selector';
-import {MovieCard} from '../../components/moviesResult/MoviesResult';
+import {MovieCard} from '../../components/movieCard/MovieCard';
 import * as S from './style';
 import {useNavigation, useRoute} from '@react-navigation/native';
 

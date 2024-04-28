@@ -18,7 +18,7 @@ import {fetchMoviesDetail} from '../../hooks/useMoviesResult';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {increment} from '../../store/counterMoviesList/action';
 import {Movie} from '../../types/movies';
-import {MovieCard} from '../../components/moviesResult/MoviesResult';
+import {MovieCard} from '../../components/movieCard/MovieCard';
 
 interface Provider {
   display_priority: number;
