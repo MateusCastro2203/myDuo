@@ -16,3 +16,12 @@ export const useSaveLocalStorage = (id: number, movies: Movie) => {
     data: movies,
   });
 };
+
+export const useRemoveItemStorage = (id: number) => {
+  storage.remove({
+    key: 'favoritesMovies',
+    id: id.toString(),
+  });
+};
+//ESTOU FAZENDO O REMOVE DOS DADOS DO LOCALSTORAGE, JA ESTÁ SALVANDO E PRECISO AGORA FAZER O BOTAO DE REMOVER OS DADOS DO ARRAY DO STORAGE.
+// CONFIGURAR PARA FAZER O BUILD DO APK

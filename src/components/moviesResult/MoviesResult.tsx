@@ -11,21 +11,20 @@ import {fetchMovieDetailSuccess} from '../../store/movieDeteilStore/actions';
 
 import * as S from './styles';
 
-export const MoviesResult = ({item}: {item: searchMovies}) => {
-  const dispatch = useDispatch();
-  const movies = useSelector(selectAllMovies);
+interface MovieCardProps {
+  item: searchMovies;
+  screenPath?: string;
+  handlePressMovieDetail: () => void;
+}
 
-  const navigation = useNavigation();
-
+export const MovieCard: React.FC<MovieCardProps> = ({
+  item,
+  screenPath,
+  handlePressMovieDetail,
+}) => {
   const img = item?.poster_path
     ? apiConfig.image_base_url + item.poster_path
     : null;
-
-  const handlePressMovieDetail = async () => {
-    const moviesDetails = await fetchMoviesDetail(item.id);
-    dispatch(fetchMovieDetailSuccess(moviesDetails));
-    navigation.navigate('MovieDetails');
-  };
 
   return (
     <TouchableOpacity
@@ -36,10 +35,12 @@ export const MoviesResult = ({item}: {item: searchMovies}) => {
         {img && (
           <FastImage source={{uri: img}} style={{width: 140, height: 200}} />
         )}
-        <S.TitleContainer>
-          <S.Title>{item.title}</S.Title>
-          <S.Description numberOfLines={6}>{item.overview}</S.Description>
-        </S.TitleContainer>
+        {screenPath && (
+          <S.TitleContainer>
+            <S.Title>{item.title}</S.Title>
+            <S.Description numberOfLines={6}>{item.overview}</S.Description>
+          </S.TitleContainer>
+        )}
       </S.Container>
     </TouchableOpacity>
   );

@@ -1,14 +1,24 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, FlatList} from 'react-native';
+import {FlatList} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {useSelector} from 'react-redux';
-import {selectMovieDataStore} from '../../store/movieDeteilStore/selectors';
+import {useDispatch} from 'react-redux';
 import {apiConfig} from '../../types/api';
 import {MovieDetailData} from '../../types/movieDetail';
 import * as S from './style';
-import {getWatchProviders} from '../../hooks/useMovieDetails';
+import {
+  getRecommendations,
+  getWatchProviders,
+} from '../../hooks/useMovieDetails';
 import {Button} from '../../components/button/Button';
-import {useSaveLocalStorage} from '../../hooks/useLocalStorage';
+import {
+  useRemoveItemStorage,
+  useSaveLocalStorage,
+} from '../../hooks/useLocalStorage';
+import {fetchMoviesDetail} from '../../hooks/useMoviesResult';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {increment} from '../../store/counterMoviesList/action';
+import {Movie} from '../../types/movies';
+import {MovieCard} from '../../components/moviesResult/MoviesResult';
 
 interface Provider {
   display_priority: number;
@@ -25,37 +35,82 @@ interface MovieData {
 }
 
 export const MovieDetails = () => {
-  const movieDetail = useSelector(selectMovieDataStore);
-  const imgUri = apiConfig.image_base_url + movieDetail.movieData.backdrop_path;
-  const details: MovieDetailData = movieDetail.movieData;
-  const formattedDate = new Date(details.release_date).getFullYear();
-  const [getProviders, setProviders] = useState<MovieData>();
+  const route = useRoute();
+
+  const {movieId, lastScreen} = route.params;
+
+  console.log('ROUTES: ', route);
+
+  const [movieDetail, setMovieDetail] = useState<MovieDetailData>();
+  const [moviesRecommendation, setRecommendation] = useState<Movie[]>();
+
+  useEffect(() => {
+    const fetchMovieDetails = async () => {
+      const moviesDetails = await fetchMoviesDetail(movieId);
+      setMovieDetail(moviesDetails);
+    };
+
+    const fetchMoviesRecomendations = async () => {
+      const moviesRecomendations = await getRecommendations(movieId);
+      setRecommendation(moviesRecomendations);
+    };
+
+    fetchMovieDetails();
+    fetchMoviesRecomendations();
+  }, [movieId]);
 
   useEffect(() => {
     const fetchWatchProviders = async () => {
-      const response = await getWatchProviders(details.id);
+      const response = await getWatchProviders(movieDetail.id);
       setProviders(response);
     };
     fetchWatchProviders();
-  }, []);
+  }, [movieDetail]);
+
+  const imgUri = apiConfig.image_base_url + movieDetail?.backdrop_path;
+
+  const formattedDate = new Date(movieDetail?.release_date).getFullYear();
+  const [getProviders, setProviders] = useState<MovieData>();
+
+  const dispatch = useDispatch();
 
   const saveStore = async () => {
-    await useSaveLocalStorage(details.id, movieDetail);
+    dispatch(increment());
+
+    await useSaveLocalStorage(movieDetail?.id, movieDetail);
+    navigation.goBack();
   };
+
+  const navigation = useNavigation();
+
+  const removeItem = (id: number) => {
+    dispatch(increment());
+    useRemoveItemStorage(id);
+    navigation.goBack();
+  };
+
+  const onPressCard = (id: number, screenPath: string) => {
+    navigation.navigate('MovieDetails', {
+      movieId: id,
+      lastScreen: screenPath,
+    });
+  };
+
+  console.log('OII :', movieDetail?.id);
 
   return (
     <S.Container>
       <FastImage source={{uri: imgUri}} style={{width: '100%', height: 200}} />
       <S.MovieContainer>
         <S.HeaderContainer>
-          <S.Avarage>{details.vote_average.toFixed(1)}</S.Avarage>
+          <S.Avarage>{movieDetail?.vote_average.toFixed(1)}</S.Avarage>
           <S.TitleContainer>
-            <S.Title numberOfLines={2}>{details.title}</S.Title>
+            <S.Title numberOfLines={2}>{movieDetail?.title}</S.Title>
             <S.ReleaseDate>{formattedDate}</S.ReleaseDate>
           </S.TitleContainer>
         </S.HeaderContainer>
 
-        <S.Description>{details.overview}</S.Description>
+        <S.Description>{movieDetail?.overview}</S.Description>
         <S.MovieProvider>Onde ver o filme</S.MovieProvider>
         <FlatList
           data={getProviders?.flatrate}
@@ -69,13 +124,37 @@ export const MovieDetails = () => {
         />
       </S.MovieContainer>
 
-      <S.ButtonContainer>
-        <Button
-          onPress={() => {
-            saveStore;
-          }}
-        />
-      </S.ButtonContainer>
+      <S.MovieProvider>Filmes Similares</S.MovieProvider>
+      <FlatList
+        data={moviesRecommendation}
+        renderItem={data => (
+          <MovieCard
+            item={data.item}
+            handlePressMovieDetail={() => onPressCard(data.item.id, route.name)}
+          />
+        )}
+        horizontal
+      />
+      {lastScreen !== 'List' && (
+        <S.ButtonContainer>
+          <Button
+            onPress={() => {
+              saveStore();
+            }}
+            title="Adicionar filme a lista"
+          />
+        </S.ButtonContainer>
+      )}
+      {lastScreen === 'List' && (
+        <S.ButtonContainer>
+          <Button
+            onPress={() => {
+              removeItem(movieDetail?.id);
+            }}
+            title={'Remover filme da lista'}
+          />
+        </S.ButtonContainer>
+      )}
     </S.Container>
   );
 };
