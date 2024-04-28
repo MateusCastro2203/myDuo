@@ -12,7 +12,7 @@ export const ListScreen = () => {
 
   const counter = useSelector(getCount);
 
-  const [movieSaved, setMovieSaved] = useState();
+  const [movieSaved, setMovieSaved] = useState([]);
 
   const route = useRoute();
 
@@ -34,7 +34,7 @@ export const ListScreen = () => {
 
   return (
     <>
-      {movieSaved.length === 0 ? (
+      {movieSaved.length === 0 || undefined ? (
         <S.ContainerText>
           <S.Title>Você ainda salvou nenhum filme</S.Title>
         </S.ContainerText>
