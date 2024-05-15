@@ -1,53 +1,55 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {HomeScreen} from '../modules/home/HomeScreen';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+import {HomeScreen} from '../modules/home/HomeScreen';
 import {ListScreen} from '../modules/list/ListScreen';
 import {MovieDetails} from '../modules/movie/MovieDetailScreen';
 
-export const Navigator = () => {
-  const Stack = createNativeStackNavigator();
-  const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
-  const Tabs = () => {
-    return (
-      <Tab.Navigator
-        screenOptions={{
-          tabBarStyle: {backgroundColor: '#242e34', paddingTop: 10},
-        }}>
-        <Tab.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            tabBarIcon: () => <Icon name="home" size={20} color="#FFFFFF" />,
-            tabBarLabelStyle: {fontSize: 16},
-            headerShown: false,
-            tabBarLabel: 'Início',
-          }}
-        />
-        <Tab.Screen
-          name="List"
-          component={ListScreen}
-          options={{
-            tabBarIcon: () => <Icon name="list" size={20} color="#FFFFFF" />,
-            headerShown: false,
-            tabBarLabel: 'Lista',
-            tabBarLabelStyle: {fontSize: 16},
-          }}
-        />
-      </Tab.Navigator>
-    );
-  };
+const HomeIcon = () => <Icon name="home" size={20} color="#FFFFFF" />;
+const ListIcon = () => <Icon name="list" size={20} color="#FFFFFF" />;
+
+const HomeStack = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: {backgroundColor: '#242e34', paddingTop: 10},
+      }}>
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: HomeIcon,
+          tabBarLabelStyle: {fontSize: 16},
+          headerShown: false,
+          tabBarLabel: 'Início',
+        }}
+      />
+      <Tab.Screen
+        name="List"
+        component={ListScreen}
+        options={{
+          tabBarIcon: ListIcon,
+          headerShown: false,
+          tabBarLabel: 'Lista',
+          tabBarLabelStyle: {fontSize: 16},
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+export const Navigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Tabs"
-        component={Tabs}
-        options={{
-          headerShown: false,
-        }}
+        component={HomeStack}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="MovieDetails"
