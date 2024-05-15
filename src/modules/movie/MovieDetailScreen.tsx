@@ -9,12 +9,11 @@ import {
   getRecommendations,
   getWatchProviders,
 } from '../../hooks/useMovieDetails';
-import {Button} from '../../components/button/Button';
 import {fetchMoviesDetail} from '../../hooks/useMoviesResult';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {increment} from '../../store/counterMoviesList/action';
 import {Movie} from '../../types/movies';
-import {MovieCard} from '../../components/movieCard/MovieCard';
+import {MovieCard, Button} from '@components';
 import {Device} from '@device';
 
 interface Provider {
@@ -73,7 +72,7 @@ export const MovieDetails = () => {
 
   const saveStore = async () => {
     dispatch(increment());
-    if (movieDetail.id) {
+    if (movieDetail) {
       await Device.Storage.save(movieDetail?.id, movieDetail);
       navigation.goBack();
     }

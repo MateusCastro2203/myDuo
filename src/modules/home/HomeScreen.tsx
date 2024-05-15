@@ -1,17 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Text,
-  TextInput,
-  View,
-  StyleSheet,
-  FlatList,
-  Button,
-} from 'react-native';
+import {TextInput, StyleSheet, FlatList} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {validateAuth, findMovies} from '../../hooks/useOnLoadAppAPi';
+import {findMovies} from '../../hooks/useOnLoadAppAPi';
 import {fetchMoviesSuccess} from '../../store/searchMoviesStore/actions';
-import {selectPopularMovies} from '../../store/movieStore/selectors';
-import {MovieCard} from '../../components/movieCard/MovieCard';
+import {MovieCard} from '@components';
 import * as S from './styles';
 import {selectAllMovies} from '../../store/searchMoviesStore/selectors';
 import {useNavigation, useRoute} from '@react-navigation/native';

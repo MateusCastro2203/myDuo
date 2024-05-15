@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
 import {useSelector} from 'react-redux';
 import {getCount} from '../../store/counterMoviesList/selector';
-import {MovieCard} from '../../components/movieCard/MovieCard';
+import {MovieCard} from '@components';
 import * as S from './style';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Device} from '@device';

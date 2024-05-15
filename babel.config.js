@@ -7,6 +7,7 @@ module.exports = {
       {
         alias: {
           '@device': './src/libs/device',
+          '@components': './src/components',
         },
       },
     ],
