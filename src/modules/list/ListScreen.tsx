@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {Button, FlatList, Text, View} from 'react-native';
+import {FlatList} from 'react-native';
 import {useSelector} from 'react-redux';
-import {storage} from '../../hooks/useLocalStorage';
 import {getCount} from '../../store/counterMoviesList/selector';
-import {MovieCard} from '../../components/movieCard/MovieCard';
+import {MovieCard} from '@components';
 import * as S from './style';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import {Device} from '@device';
 
 export const ListScreen = () => {
-  const localData = storage;
+  const localData = Device.Storage.data;
 
   const counter = useSelector(getCount);
 

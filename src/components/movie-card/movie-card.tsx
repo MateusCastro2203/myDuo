@@ -1,13 +1,8 @@
-import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {useDispatch, useSelector} from 'react-redux';
-import {selectAllMovies} from '../../store/searchMoviesStore/selectors';
 import {apiConfig} from '../../types/api';
 import {searchMovies} from '../../types/movies';
-import {fetchMoviesDetail} from '../../hooks/useMoviesResult';
-import {fetchMovieDetailSuccess} from '../../store/movieDeteilStore/actions';
 
 import * as S from './styles';
 
