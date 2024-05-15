@@ -10,15 +10,12 @@ import {
   getWatchProviders,
 } from '../../hooks/useMovieDetails';
 import {Button} from '../../components/button/Button';
-import {
-  useRemoveItemStorage,
-  useSaveLocalStorage,
-} from '../../hooks/useLocalStorage';
 import {fetchMoviesDetail} from '../../hooks/useMoviesResult';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {increment} from '../../store/counterMoviesList/action';
 import {Movie} from '../../types/movies';
 import {MovieCard} from '../../components/movieCard/MovieCard';
+import {Device} from '@device';
 
 interface Provider {
   display_priority: number;
@@ -76,16 +73,17 @@ export const MovieDetails = () => {
 
   const saveStore = async () => {
     dispatch(increment());
-
-    await useSaveLocalStorage(movieDetail?.id, movieDetail);
-    navigation.goBack();
+    if (movieDetail.id) {
+      await Device.Storage.save(movieDetail?.id, movieDetail);
+      navigation.goBack();
+    }
   };
 
   const navigation = useNavigation();
 
   const removeItem = (id: number) => {
     dispatch(increment());
-    useRemoveItemStorage(id);
+    Device.Storage.remove(id);
     navigation.goBack();
   };
 
@@ -95,8 +93,6 @@ export const MovieDetails = () => {
       lastScreen: screenPath,
     });
   };
-
-  console.log('OII :', movieDetail?.id);
 
   return (
     <S.Container>
